@@ -27,7 +27,7 @@ class PostgresConnection {
      * Shutdown the connection
      */
     async shutdown() {
-        await this.pool.end();
+        await this.pool?.end();
     }
     /**
      * @callback query_exec

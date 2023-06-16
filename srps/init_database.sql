@@ -11,7 +11,8 @@ CREATE INDEX idx_vendor_name ON "claims"."vendor"(vendor_name);
 
 CREATE TABLE "claims"."employee" (
     employee_id     BIGSERIAL PRIMARY KEY,
-    employee_name   TEXT NOT NULL
+    employee_name   TEXT NOT NULL,
+	employee_email	TEXT NOT NULL
 );
 
 CREATE TABLE "claims"."claims" (
