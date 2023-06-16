@@ -33,7 +33,29 @@ services:
       - MB_DB_FILE=/metabase-data/metabase.db
     volumes:
       - metabasedb:/metabase-data/
-
+  backend:
+    depends_on:
+      - postgres
+    image: node:18-alpine3.17
+    ports:
+      - 12345:12345
+    volumes:
+      - ./:/app
+    command: npm start
+    environment:
+      - POSTGRES_SERVER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=impacthack
+    working_dir: /app
+  backend-init:
+    image: node:18-alpine3.17
+    profiles:
+      - setup
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: npm install
 volumes:
   postgres:
   pgadmin:
