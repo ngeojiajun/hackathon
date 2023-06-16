@@ -53,7 +53,7 @@ class PostgresConnection {
      * Execute a simple query without need to deal with the client handle
      * @param {string} query
      * @param {any[]?} params
-     * @returns {any[]}
+     * @returns {Promise<any[]>}
      */
     async exec_single_query(query, params) {
         let result= await this.exec_query(async function(client){
