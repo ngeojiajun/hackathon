@@ -1,0 +1,40 @@
+version: '3.2'
+
+services:
+  postgres:
+    image: postgres:15.3
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=password
+  pgadmin:
+    profiles:
+      - db_debug
+    depends_on:
+      - postgres
+    image: dpage/pgadmin4
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    environment:
+      - PGADMIN_DEFAULT_PASSWORD=password
+      - PGADMIN_DEFAULT_EMAIL=abc@def.com
+  metabase:
+    depends_on:
+      - postgres
+    ports:
+      - 3000:3000
+    image: metabase/metabase:latest
+    environment:
+      - MB_DB_FILE=/metabase-data/metabase.db
+    volumes:
+      - metabasedb:/metabase-data/
+
+volumes:
+  postgres:
+  pgadmin:
+  metabasedb:
