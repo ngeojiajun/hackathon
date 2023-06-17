@@ -29,6 +29,7 @@
                     <th>Purchase Type</th>
                     <th>Claim Date</th>
                     <th>Approval Status</th>
+                    <th>Remarks</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,6 +47,7 @@
                     <td><%= row.purchase_type %> </td>
                     <td><%= new Date(row.claim_date).toLocaleString({timeZone:"UTC+08"}) %> </td>
                     <td><%= `${row.claim_status} ${approval_status_map[row.claim_status]||'arghh'}` %></td>
+                    <td><%= row.remarks %></td>
                 </tr>
             <% } _%>
             </tbody>
