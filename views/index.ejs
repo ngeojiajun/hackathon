@@ -7,39 +7,39 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        
+
         h1 {
             text-align: center;
             margin-bottom: 30px;
         }
-        
+
         form {
             margin-bottom: 20px;
         }
-        
+
         select {
             padding: 5px;
         }
-        
+
         input[type="file"] {
             margin-top: 10px;
         }
-        
+
         .error-message {
             color: red;
         }
-        
+
         table {
             border-collapse: collapse;
             width: 100%;
         }
-        
+
         th, td {
             padding: 10px;
             text-align: left;
             border: 1px solid pink;
         }
-        
+
         th {
             background-color: pink;
             font-weight: bold;
@@ -86,7 +86,7 @@
                 <td><%= row.employee_name %></td>
                 <td><%= row.vendor_name_expanded %></td>
                 <td><%= row.purchase_type %></td>
-                <td><%= new Date(row.claim_date).toLocaleString('en-US', { timeZone: 'UTC+08' }) %></td>
+                <td><%= new Date(row.claim_date).toLocaleString('en-US', { timeZone: 'Asia/Kuala_Lumpur' }) %></td>
                 <td><%= `${row.claim_status} ${approval_status_map[row.claim_status] || 'arghh'}` %></td>
                 <td><%= row.remarks %></td>
             </tr>
