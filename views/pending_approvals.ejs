@@ -1,9 +1,83 @@
 <html>
     <head>
         <title>ClaimSync - Pending Claims</title>
+        <style>
+                 body {
+            background-color: #FFFFFF;
+            color: #333333;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            color: #000000;
+            padding: 10px;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .home-button {
+            background-color: #007BFF;
+            color: #FFFFFF;
+            border: none;
+            padding: 5px 10px;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: #FFFFFF;
+        }
+
+        tr:nth-child(even) {
+            background-color: #EDF5FF;
+        }
+
+        .actions-form {
+            display: flex;
+            align-items: center;
+        }
+
+        .actions-form input[type="submit"] {
+            margin: 5px;
+            padding: 5px 10px;
+            border: none;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        .actions-form input[type="submit"].approve {
+            background-color: #28A745;
+        }
+
+        .actions-form input[type="submit"].reject {
+            background-color: #DC3545;
+        }
+
+        .actions-form input[type="text"] {
+            background-color: #FFFFFF;
+        }
+        </style>
     </head>
     <body>
-        <h1>Pending claims, click buttons at the right to perform actions on it <a href='/'>Home</a></h1>
+        <h1>
+            Pending claims
+            <button class="home-button" onclick="window.location.href='/';">Home</button>
+        </h1>
         <table border="1px solid pink">
             <thead>
                 <tr>
@@ -26,11 +100,11 @@
                     <td><%= new Date(row.claim_date).toLocaleString({timeZone:"Asia/Kuala_Lumpur"}) %> </td>
                     <td><a href="/api/manager/<%=row.receipt_picture%>" target="_blank">Receipt</a></td>
                     <td>
-                        <form method="post">
+                        <form class="actions-form" method="post">
                             <input type="hidden" name="claim_id" value="<%=row.claim_id%>"/>
                             <input type="text" name="remarks" value="<%=row.remarks%>" placeholder="Remarks"/>
-                            <input type="submit" name="submit" value="approve"/>
-                            <input type="submit" name="submit" value="reject"/>
+                            <input type="submit" name="submit" value="approve" class="approve"/>
+                            <input type="submit" name="submit" value="reject" class="reject"/>
                         </form>
                     </td>
                 </tr>
@@ -39,6 +113,9 @@
     </table>
     <% if(data.length == 0) { _%>
         <p>Nothing pending</p>
+    <% } _%>
+    <% if(typeof error_message === "string") { _%>
+        <script>alert(`<%=error_message%>`)</script>
     <% } _%>
 </body>
 </html>

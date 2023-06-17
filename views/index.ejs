@@ -37,11 +37,11 @@
         th, td {
             padding: 10px;
             text-align: left;
-            border: 1px solid pink;
+            border: 1px solid #e1eaf5;
         }
 
         th {
-            background-color: pink;
+            background-color: #e1eaf5;
             font-weight: bold;
         }
     </style>
@@ -61,12 +61,13 @@
         <p>Upload the receipt image:</p>
         <input type="file" name="receipt" accept="image/*"/>
         <% if(selected) { %>
-            <input type="hidden" name="employee_id" value="<%=selected%>" required/>
+            <input type="hidden" name="employee_id" value="<%=selected%>" required/><br/>
             <input type="submit" value="Upload"/>
         <% } else { %>
             <p class="error-message">Select the user id first</p>
         <% } %>
     </form>
+    <button onclick="window.location.href='/api/manager';">Approval Page</button>
     <table>
         <thead>
             <tr>

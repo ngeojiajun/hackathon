@@ -32,6 +32,7 @@ SELECT employee_name, SUM(price) as total_claim
    INNER JOIN "claims"."employee" e
    USING (employee_id)
    WHERE c.employee_id > 1 AND {{claim_date}}
+   AND claim_status = 'approved'
    GROUP BY 1;
 
 -- 05-claim status
@@ -39,3 +40,9 @@ select claim_status, COUNT(*) as "count"
     FROM "claims"."claims"
     WHERE {{claim_date}}
     GROUP BY 1;
+
+-- 06 purchase type to goal
+SELECT purchase_type, SUM(price) as total_claim, 1000 - SUM(price) as remaining_claim
+    FROM "claims"."claims" c
+    WHERE {{claim_date}} AND claim_status = 'approved'
+   GROUP BY 1;

@@ -87,11 +87,16 @@ app.post("/claims", async function (req,res,next){
             `,[vendor_id, vendor_id==1?vendor_name:null, invoice_number, purchase_type, total_amount, receipt, employee_id, remarks, status]);
             return status === 'approved' ? 2 :1;
         });
+        function pop_and_redirect(msg,target='/'){
+            res.end(`<script>alert(\`${msg}\`);document.location.replace('${target}');</script>`);
+        }
         if(result) {
-            res.status(200).end('Updated'+(result===2?' and approved':''));
+            res.status(200);
+            pop_and_redirect('Updated'+(result===2?' and approved':''));
         }
         else {
-            res.status(500).end('Cannot add claim');
+            res.status(500);
+            pop_and_redirect('Cannot add claim');
         }
     }
     catch(e) {

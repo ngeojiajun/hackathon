@@ -3,20 +3,24 @@ const express = require("express");
 const app = express.Router();
 const db_conn = require("../db/PostgresConnection");
 
+async function render(res, additionalArgs={}){
+    let data = await db_conn.exec_single_query(`SELECT *,
+        CASE
+            WHEN c.vendor_id = 1 THEN COALESCE(c.vendor_name, 'Unknown')
+            ELSE v.vendor_name
+        END as vendor_name_expanded
+        FROM claims.claims c inner join
+        claims.vendor v using (vendor_id)
+        inner join claims.employee e using (employee_id)
+        where claim_status='pending'
+        order by claim_date desc`
+    );
+    res.render('pending_approvals.ejs', {data,...additionalArgs});
+}
+
 app.get("/",async function (req,res,next){
     try {
-        let data = await db_conn.exec_single_query(`SELECT *,
-            CASE
-                WHEN c.vendor_id = 1 THEN COALESCE(c.vendor_name, 'Unknown')
-                ELSE v.vendor_name
-            END as vendor_name_expanded
-            FROM claims.claims c inner join
-            claims.vendor v using (vendor_id)
-            inner join claims.employee e using (employee_id)
-            where claim_status='pending'
-            order by claim_date desc`
-        );
-        res.render('pending_approvals.ejs', {data});
+        await render(res);
     }
     catch(e) {
         console.error(e);
@@ -42,10 +46,10 @@ app.post("/", async function (req, res, next){
             return q.rowCount;
         });
         if(r) {
-            res.type('html').end("Updated. <a href='/api/manager'>Click here to continue</a>");
+            await render(res,{error_message:"Updated"});
         }
         else{
-            res.end('Cannot update the claim :-(');
+            await render(res,{error_message:"Cannot update the claim"});
         }
     }
     catch(e) {
