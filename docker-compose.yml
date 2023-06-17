@@ -36,7 +36,8 @@ services:
   backend:
     depends_on:
       - postgres
-    image: node:18-alpine3.17
+    # image: node:18-alpine3.17
+    build: ./src/
     ports:
       - 12345:12345
     volumes:
@@ -49,7 +50,8 @@ services:
       - POSTGRES_DB=impacthack
     working_dir: /app
   backend-init:
-    image: node:18-alpine3.17
+    # image: node:18-alpine3.17
+    build: ./src/
     profiles:
       - setup
     working_dir: /app

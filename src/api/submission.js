@@ -3,14 +3,25 @@ const express = require("express");
 const multer = require("multer");
 const app = express.Router();
 const uploader = multer({dest:'./uploads'});
+const tesseract = require("node-tesseract-ocr")
 
+const tesseract_config = {
+  lang: "eng",
+  tessedit_char_whitelist: '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$:. '
+}
 app.post("/ocr", uploader.single('receipt'),async function (req, res, next){
     try {
-        res.end(JSON.stringify(req.file,null,2))
+        if(!req.file) {
+            res.end('No file provided');
+            return;
+        }
+        // req.file.path
+        let result = await tesseract.recognize(req.file.path,tesseract_config);
+        res.end(result);
     }
     catch(e) {
         console.error(e);
-        next(e);
+        res.end("Cannot process the file");
     }
 });
 

@@ -16,6 +16,7 @@ db_conn.init();
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 app.use("/api", require('./api/_defs'));
 app.set('view engine', 'ejs')
 app.get("/",async function(req,res,next){

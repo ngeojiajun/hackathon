@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title>ClaimSync - Pending Claims</title>
+    </head>
+    <body>
+        <h1>Pending claims, click buttons at the right to perform actions on it <a href='/'>Home</a></h1>
+        <table border="1px solid pink">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Employee name</th>
+                    <th>Vendor</th>
+                    <th>Purchase Type</th>
+                    <th>Claim Date</th>
+                    <th>Receipt</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            <%for(const row of data){ _%>
+                <tr>
+                    <td><%= row.claim_id %> </td>
+                    <td><%= row.employee_name %> </td>
+                    <td><%= row.vendor_name_expanded %> </td>
+                    <td><%= row.purchase_type %> </td>
+                    <td><%= new Date(row.claim_date).toLocaleString({timeZone:"UTC+08"}) %> </td>
+                    <td><a href="/api/manager/<%=row.receipt_picture%>" target="_blank">Receipt</a></td>
+                    <td>
+                        <form method="post">
+                            <input type="hidden" name="claim_id" value="<%=row.claim_id%>"/>
+                            <input type="text" name="remarks" value="<%=row.remarks%>" placeholder="Remarks"/>
+                            <input type="submit" name="submit" value="approve"/>
+                            <input type="submit" name="submit" value="reject"/>
+                        </form>
+                    </td>
+                </tr>
+            <% } _%>
+            </tbody>
+        </table>
+    </body>
+</html>
