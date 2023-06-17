@@ -26,13 +26,18 @@ app.get("/",async function (req,res,next){
 
 app.post("/", async function (req, res, next){
     try {
+        let xxx = {
+            approve : 'approved',
+            reject : 'rejected'
+        };
         const {claim_id, submit, remarks} = req.body;
         let r = await db_conn.exec_query(async function (client){
             let q = await client.query(`UPDATE claims.claims
                 SET claim_status = $1,
-                remarks = $2
+                remarks = $2,
+                last_updated = NOW()
                 WHERE claim_id = $3 AND
-                claim_status = 'pending'`, [submit +'ed', remarks, claim_id]
+                claim_status = 'pending'`, [xxx[submit], remarks, claim_id]
             );
             return q.rowCount;
         });
@@ -52,7 +57,7 @@ app.post("/", async function (req, res, next){
 app.get("/:xxx", async function (req,res,next){
     try {
         res.sendFile(
-            './upload/'+req.params.xxx.replace(/([^/]*\/)/g,''),
+            './uploads/'+req.params.xxx.replace(/([^/]*\/)/g,''),
             {
                 root: process.cwd()
             }
