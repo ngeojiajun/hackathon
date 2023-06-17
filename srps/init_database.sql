@@ -34,3 +34,9 @@ CREATE TABLE "claims"."claims" (
 	last_updated	TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 	claim_status	"claims"."approval_status" DEFAULT 'pending'
 );
+
+CREATE TABLE "claims"."budgets" (
+    budget_type VARCHAR(255),
+    budget_amount DECIMAL(10, 2),
+    vendor_id INT
+);
