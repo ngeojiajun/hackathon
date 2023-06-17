@@ -3,6 +3,23 @@
         <title>ClaimSync</title>
     </head>
     <body>
+        <form>
+            <select name="id" onchange="this.form.submit()">
+                    <option value="">(Please select)</option>
+                <% for(const employee of employees) { _%>
+                    <option value="<%=employee.employee_id %>" <%=employee.employee_id == selected ? 'selected' : '' %>><%=employee.employee_name %></option>
+                <% } _%>
+            </select>
+        </form>
+        <form action="/api/submission/ocr" method="post" enctype="multipart/form-data">
+            <p>Upload the receipt image</p>
+            <p><input type="file" name="receipt" accept="image/*"/></p>
+            <% if(selected) {%>
+                <input type="submit" value="Upload"/>
+            <% } else {%>
+                <p style="color:red">Select the user id first</p>
+            <% }%>
+        </form>
         <table border="1px solid pink">
             <thead>
                 <tr>
@@ -15,7 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-            <% 
+            <%
                 const approval_status_map = {
                     approved: '✅',
                     pending: '🕐',

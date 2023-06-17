@@ -6,6 +6,7 @@ const uploader = multer({dest:'./uploads'});
 
 app.post("/ocr", uploader.single('receipt'),async function (req, res, next){
     try {
+        res.end(JSON.stringify(req.file,null,2))
     }
     catch(e) {
         console.error(e);
