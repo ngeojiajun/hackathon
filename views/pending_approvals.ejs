@@ -23,7 +23,7 @@
                     <td><%= row.employee_name %> </td>
                     <td><%= row.vendor_name_expanded %> </td>
                     <td><%= row.purchase_type %> </td>
-                    <td><%= new Date(row.claim_date).toLocaleString({timeZone:"UTC+08"}) %> </td>
+                    <td><%= new Date(row.claim_date).toLocaleString({timeZone:"Asia/Kuala_Lumpur"}) %> </td>
                     <td><a href="/api/manager/<%=row.receipt_picture%>" target="_blank">Receipt</a></td>
                     <td>
                         <form method="post">
@@ -35,7 +35,10 @@
                     </td>
                 </tr>
             <% } _%>
-            </tbody>
-        </table>
-    </body>
+        </tbody>
+    </table>
+    <% if(data.length == 0) { _%>
+        <p>Nothing pending</p>
+    <% } _%>
+</body>
 </html>
