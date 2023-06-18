@@ -42,7 +42,7 @@ select claim_status, COUNT(*) as "count"
     GROUP BY 1;
 
 -- 06 purchase type to goal
-SELECT purchase_type, SUM(price) as total_claim, 1000 - SUM(price) as remaining_claim
+SELECT purchase_type, SUM(price) as total_claim, 4000 - SUM(price) as remaining_claim
     FROM "claims"."claims" c
     WHERE {{claim_date}} AND claim_status = 'approved'
    GROUP BY 1;
